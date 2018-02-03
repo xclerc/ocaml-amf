@@ -1,0 +1,16 @@
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
+Name:        ocaml-amf
+Version:     0.0.1
+Synopsis:    Implementation of Adobe's Action Message Format
+Authors:     Brian Caine <briancaine@gmail.com>
+License:     LGPL with OCaml linking exception
+OCamlVersion:  >= 4.01
+AlphaFeatures: ocamlbuild_more_args
+XOCamlbuildPluginTags:  package(bisect_ppx.ocamlbuild)
+
+Library "amf"
+  Path: src/amf/
+  Modules: AMF
+  BuildDepends: threads, core, ppx_deriving, ppx_fields_conv, ppx_sexp_conv, stdint
