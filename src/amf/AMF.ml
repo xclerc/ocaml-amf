@@ -1,1 +1,3 @@
-module V0 = Amf_v0
+module V0 = struct
+  include Amf_v0
+end
