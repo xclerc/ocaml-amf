@@ -40,7 +40,7 @@ and t =
   | RecordSet
   | XMLDocument   of string
   | TypedObject   of typed_object
-  | AVMPlusObject [@@deriving fields, sexp]
+  | AVMPlusObject [@@deriving sexp]
 
 let marker_buffer item =
   (match item with

@@ -17,5 +17,3 @@ github.io-docs : doc coverage/index.html
 
 	cp -r amf_api.docdir/* docs
 	cp -r coverage docs
-
-	git add docs

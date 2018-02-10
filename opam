@@ -37,5 +37,6 @@ depends: [
   "sexplib"
   "bisect_ppx" {build}
   "bisect_ppx-ocamlbuild" {build}
+  "ounit" {build}
 ]
 available: [ ocaml-version >= "4.01" ]
