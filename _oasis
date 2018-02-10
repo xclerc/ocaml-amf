@@ -12,7 +12,12 @@ AlphaFeatures: ocamlbuild_more_args
 Library "amf"
   Path: src/amf/
   Modules: AMF
-  BuildDepends: threads, core, stdint
+  BuildDepends: threads, core, stdint, ppx_deriving, ppx_sexp_conv
+
+Executable "test"
+  Path: test/
+  MainIs: test.ml
+  BuildDepends: amf, core, oUnit, oUnit.advanced, oUnit.threads, bisect_ppx-ocamlbuild, sexplib
 
 Document "amf_api"
   Type: ocamlbuild (0.4)

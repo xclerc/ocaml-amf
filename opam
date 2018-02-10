@@ -31,9 +31,10 @@ depends: [
 
   "ppx_deriving" {build}
   "ppx_sexp_conv" {build}
-  "ppx_fields_conv" {build}
   "base-threads"
   ("core" {>= "v0.9.1"})
   "stdint"
+  "sexplib"
+  "bisect_ppx-ocamlbuild" {build}
 ]
 available: [ ocaml-version >= "4.01" & ocaml-version < "4.06.0" ]

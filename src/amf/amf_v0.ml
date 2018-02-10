@@ -20,7 +20,7 @@ exception UpgradeToAMFV3
 type typed_object = {
   class_name : string;
   properties : (string * t) list;
-} [@@deriving fields, sexp]
+} [@@deriving sexp]
 
 and t =
   | Number        of float
