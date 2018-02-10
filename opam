@@ -29,11 +29,11 @@ remove: ["ocamlfind" "remove" "amf"]
 depends: [
   ("oasis" {build} | "oasis-mirage" {build})
 
-  ("ppx_deriving" {build})
-  ("ppx_sexp_conv" {build})
-  ("ppx_fields_conv" {build})
+  "ppx_deriving" {build}
+  "ppx_sexp_conv" {build}
+  "ppx_fields_conv" {build}
   "base-threads"
   ("core" {>= "v0.9.1"})
   "stdint"
 ]
-available: [ ocaml-version >= "4.01" ]
+available: [ ocaml-version >= "4.01" & ocaml-version < "4.06.0" ]
