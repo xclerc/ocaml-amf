@@ -8,6 +8,7 @@ Authors:     Brian Caine <briancaine@gmail.com>
 License:     LGPL with OCaml linking exception
 OCamlVersion:  >= 4.01
 AlphaFeatures: ocamlbuild_more_args
+XOCamlbuildPluginTags:  package(bisect_ppx-ocamlbuild)
 
 Library "amf"
   Path: src/amf/
