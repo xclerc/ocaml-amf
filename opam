@@ -1,6 +1,6 @@
 opam-version: "1.2"
 name: "amf"
-version: "0.0.1"
+version: "0.1.0"
 maintainer: "Brian Caine <brian.d.caine@gmail.com>"
 authors: "Brian Caine <brian.d.caine@gmail.com>"
 dev-repo: "https://github.com/briancaine/ocaml-amf.git"
@@ -38,4 +38,4 @@ depends: [
   "bisect_ppx" {build}
   "bisect_ppx-ocamlbuild" {build}
 ]
-available: [ ocaml-version >= "4.01" & ocaml-version < "4.06.0" ]
+available: [ ocaml-version >= "4.01" ]

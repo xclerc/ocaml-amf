@@ -2,7 +2,7 @@ OASISFormat: 0.4
 BuildTools: ocamlbuild
 Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
 Name:        ocaml-amf
-Version:     0.0.1
+Version:     0.1.0
 Synopsis:    Implementation of Adobe's Action Message Format
 Authors:     Brian Caine <briancaine@gmail.com>
 License:     LGPL with OCaml linking exception
