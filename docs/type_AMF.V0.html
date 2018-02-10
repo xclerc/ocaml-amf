@@ -1,0 +1,40 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="AMF" rel="Chapter" href="AMF.html"><title>AMF.V0</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span>
+&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">UnsupportedType</span>
+&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">UpgradeToAMFV3</span>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;typed_object&nbsp;=&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;class_name&nbsp;:&nbsp;string;
+&nbsp;&nbsp;&nbsp;&nbsp;properties&nbsp;:&nbsp;(string&nbsp;*&nbsp;<span class="constructor">AMF</span>.<span class="constructor">V0</span>.t)&nbsp;list;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span class="keyword">and</span>&nbsp;t&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Number</span>&nbsp;<span class="keyword">of</span>&nbsp;float
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Boolean</span>&nbsp;<span class="keyword">of</span>&nbsp;bool
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">String</span>&nbsp;<span class="keyword">of</span>&nbsp;string
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Object</span>&nbsp;<span class="keyword">of</span>&nbsp;(string&nbsp;*&nbsp;<span class="constructor">AMF</span>.<span class="constructor">V0</span>.t)&nbsp;list
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">MovieClip</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Null</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Undefined</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Reference</span>&nbsp;<span class="keyword">of</span>&nbsp;int
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ECMAArray</span>&nbsp;<span class="keyword">of</span>&nbsp;(string&nbsp;*&nbsp;<span class="constructor">AMF</span>.<span class="constructor">V0</span>.t)&nbsp;list
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ObjectEnd</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">StrictArray</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">AMF</span>.<span class="constructor">V0</span>.t&nbsp;array
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Date</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Core</span>.<span class="constructor">Time</span>.t
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">LongString</span>&nbsp;<span class="keyword">of</span>&nbsp;string
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Unsupported</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">RecordSet</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">XMLDocument</span>&nbsp;<span class="keyword">of</span>&nbsp;string
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">TypedObject</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">AMF</span>.<span class="constructor">V0</span>.typed_object
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">AVMPlusObject</span>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_buffer&nbsp;:&nbsp;<span class="constructor">AMF</span>.<span class="constructor">V0</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_buffer&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">AMF</span>.<span class="constructor">V0</span>.t,&nbsp;<span class="constructor">Core_kernel</span>.<span class="constructor">Error</span>.t)&nbsp;<span class="constructor">Core</span>.result
+<span class="keyword">end</span></code></body></html>
