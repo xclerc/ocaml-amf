@@ -63,14 +63,14 @@ let marker_buffer item =
    | TypedObject _ -> 0x11
    | AVMPlusObject -> 0x12)
   |> fun num ->
-     let dst = String.make 1 '\000' in
+     let dst = Bytes.create 1 in
      Uint8.(to_bytes_big_endian (of_int num) dst 0) ;
      dst
 
 let double_to_buffer src =
   let module Inttype = Int64 in
   let int_length = Inttype.bits / 8 in
-  let dst = String.make int_length '\000' in
+  let dst = Bytes.create int_length in
   Inttype.(to_bytes_big_endian (Core.Int64.bits_of_float src) dst 0) ;
   dst
 
@@ -139,13 +139,13 @@ let boolean_to_buffer = function
 
 let u16_to_buffer src =
   let module Inttype = Uint16 in
-  let dst = String.make (Inttype.bits / 8) '\000' in
+  let dst = Bytes.create (Inttype.bits / 8) in
   Inttype.(to_bytes_big_endian (of_int src) dst 0) ;
   dst
 
 let u32_to_buffer src =
   let module Inttype = Uint32 in
-  let dst = String.make (Inttype.bits / 8) '\000' in
+  let dst = Bytes.create (Inttype.bits / 8) in
   Inttype.(to_bytes_big_endian (of_int src) dst 0) ;
   dst
 
