@@ -29,4 +29,8 @@ sig
     | AVMPlusObject
   val to_buffer : t -> string
   val of_buffer : string -> (t, Core_kernel.Error.t) result
+  val list_of_buffer : string -> (t list, Core_kernel.Error.t) result
+  val buffer_of_list : t list -> string
+  val t_of_sexp : Sexplib0.Sexp.t -> t
+  val sexp_of_t : t -> Sexplib0.Sexp.t
 end
