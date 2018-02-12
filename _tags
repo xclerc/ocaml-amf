@@ -1,4 +1,49 @@
 # OASIS_START
+# DO NOT EDIT (digest: 3962cb4a85d20fdce998b5f5103abfbf)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
+# useless stuff for the build process
+true: annot, bin_annot
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Library amf
+"src/amf/amf.cmxs": use_amf
+<src/amf/*.ml{,i,y}>: package(core)
+<src/amf/*.ml{,i,y}>: package(ppx_deriving)
+<src/amf/*.ml{,i,y}>: package(ppx_sexp_conv)
+<src/amf/*.ml{,i,y}>: package(stdint)
+<src/amf/*.ml{,i,y}>: package(threads)
+# Executable test
+"test/test.byte": package(bisect_ppx-ocamlbuild)
+"test/test.byte": package(core)
+"test/test.byte": package(oUnit)
+"test/test.byte": package(oUnit.advanced)
+"test/test.byte": package(oUnit.threads)
+"test/test.byte": package(ppx_deriving)
+"test/test.byte": package(ppx_sexp_conv)
+"test/test.byte": package(sexplib)
+"test/test.byte": package(stdint)
+"test/test.byte": package(threads)
+"test/test.byte": use_amf
+<test/*.ml{,i,y}>: package(bisect_ppx-ocamlbuild)
+<test/*.ml{,i,y}>: package(core)
+<test/*.ml{,i,y}>: package(oUnit)
+<test/*.ml{,i,y}>: package(oUnit.advanced)
+<test/*.ml{,i,y}>: package(oUnit.threads)
+<test/*.ml{,i,y}>: package(ppx_deriving)
+<test/*.ml{,i,y}>: package(ppx_sexp_conv)
+<test/*.ml{,i,y}>: package(sexplib)
+<test/*.ml{,i,y}>: package(stdint)
+<test/*.ml{,i,y}>: package(threads)
+<test/*.ml{,i,y}>: use_amf
 # OASIS_STOP
 <src/**>: coverage
 <test/*.ml>: coverage

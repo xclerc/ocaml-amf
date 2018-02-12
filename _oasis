@@ -13,6 +13,7 @@ XOCamlbuildPluginTags:  package(bisect_ppx-ocamlbuild)
 Library "amf"
   Path: src/amf/
   Modules: AMF
+  InternalModules: Amf_v0
   BuildDepends: threads, core, stdint, ppx_deriving, ppx_sexp_conv
 
 Executable "test"
@@ -28,3 +29,9 @@ Document "amf_api"
   XOCamlbuildExtraArgs:
     "-docflags '-thread' -package core"
   XOcamlbuildLibraries: amf
+
+Test "test"
+  Run$: flag(tests)
+  TestTools: test
+  Command: $test -runner sequential
+  WorkingDirectory: test
