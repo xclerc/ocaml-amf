@@ -1,6 +1,6 @@
 opam-version: "1.2"
 name: "amf"
-version: "0.1.0"
+version: "0.1.1"
 maintainer: "Brian Caine <brian.d.caine@gmail.com>"
 authors: "Brian Caine <brian.d.caine@gmail.com>"
 dev-repo: "https://github.com/briancaine/ocaml-amf.git"
