@@ -343,3 +343,16 @@ let array_of_buffer src =
 let buffer_of_list lst =
   List.map ~f:to_buffer lst
   |> List.fold ~init:"" ~f:( ^ )
+
+let peel_off_list str =
+  let rec iter thus_far str =
+    if str = ""
+    then
+      let thus_far = List.rev thus_far in
+      Result.Ok thus_far
+    else
+      match peel_off_buffer str with
+      | Result.Error err            -> Result.Error (thus_far, str, err)
+      | Result.Ok (item, remaining) -> iter (item :: thus_far) remaining
+  in
+  iter [] str
