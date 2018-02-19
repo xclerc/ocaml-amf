@@ -21,7 +21,7 @@ let result_error_string str =
 
 module TestV0 = struct
 
-  open Amf_v0
+  open AMF__Amf_v0
 
   let is_supported_test =
     "Supported?" >:: fun test_ctxt -> assert_bool "No" true

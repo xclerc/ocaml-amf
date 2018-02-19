@@ -1,5 +1,0 @@
-# OASIS_START
-# OASIS_STOP
-<src/**>: coverage
-<test/*.ml>: coverage
-<test/test.{byte,native}>: coverage

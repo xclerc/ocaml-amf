@@ -1,11 +1,24 @@
-# OASIS_START
-# OASIS_STOP
+build :
+	jbuilder build @install
 
-_coverage/bisect0001.out : test
+uninstall :
+	ocamlfind remove amf
+
+test :
+	jbuilder runtest
+
+clean :
+	jbuilder clean
+
+doc :
+	jbuilder build @doc
+
+_coverage/bisect0001.out :
 	mkdir -p _coverage
 	rm -rf _coverage/*
-	env BISECT_COVERAGE=YES $(SETUP) -build $(BUILDFLAGS)
-	env BISECT_FILE=_coverage/bisect ./test.byte
+	jbuilder clean
+	env BISECT_ENABLE=YES jbuilder build test/test.exe
+	env BISECT_FILE=_coverage/bisect ./_build/default/test/test.exe
 
 coverage/index.html : _coverage/bisect0001.out
 	mkdir -p coverage
@@ -15,5 +28,7 @@ coverage/index.html : _coverage/bisect0001.out
 github.io-docs : doc coverage/index.html
 	rm -rf docs/*
 
-	cp -r amf_api.docdir/* docs
+	cp -r ./_build/default/_doc/* docs
 	cp -r coverage docs
+
+.PHONY : clean test doc build uninstall
