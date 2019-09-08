@@ -1,23 +1,23 @@
 build :
-	jbuilder build @install
+	dune build @install
 
 uninstall :
 	ocamlfind remove amf
 
 test :
-	jbuilder runtest
+	dune runtest
 
 clean :
-	jbuilder clean
+	dune clean
 
 doc :
-	jbuilder build @doc
+	dune build @doc
 
 _coverage/bisect0001.out :
 	mkdir -p _coverage
 	rm -rf _coverage/*
-	jbuilder clean
-	env BISECT_ENABLE=YES jbuilder build test/test.exe
+	dune clean
+	env BISECT_ENABLE=YES dune build test/test.exe
 	env BISECT_FILE=_coverage/bisect ./_build/default/test/test.exe
 
 coverage/index.html : _coverage/bisect0001.out

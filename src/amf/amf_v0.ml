@@ -80,7 +80,7 @@ let peel_off_byte src =
   if String.length src < int_length
   then Result.Error (Error.of_string "Premature end of buffer")
   else Result.Ok
-         (Inttype.(of_bytes_big_endian src 0 |> to_int),
+         (Inttype.(of_bytes_big_endian (Bytes.of_string src) 0 |> to_int),
           String.sub src ~pos:int_length ~len:(String.length src - int_length))
 
 let peel_off_u16 src =
@@ -89,7 +89,7 @@ let peel_off_u16 src =
   if String.length src < int_length
   then Result.Error (Error.of_string "Premature end of buffer")
   else Result.Ok
-         (Inttype.(of_bytes_big_endian src 0 |> to_int),
+         (Inttype.(of_bytes_big_endian (Bytes.of_string src) 0 |> to_int),
           String.sub src ~pos:int_length ~len:(String.length src - int_length))
 
 let peel_off_u32 src =
@@ -98,7 +98,7 @@ let peel_off_u32 src =
   if String.length src < int_length
   then Result.Error (Error.of_string "Premature end of buffer")
   else Result.Ok
-         (Inttype.(of_bytes_big_endian src 0 |> to_int),
+         (Inttype.(of_bytes_big_endian (Bytes.of_string src) 0 |> to_int),
           String.sub src ~pos:int_length ~len:(String.length src - int_length))
 
 let peel_off_double src =
@@ -106,7 +106,7 @@ let peel_off_double src =
   if String.length src < double_length
   then Result.Error (Error.of_string "Premature end of buffer")
   else Result.Ok
-         (Int64.(of_bytes_big_endian src 0 |> Core.Int64.float_of_bits),
+         (Int64.(of_bytes_big_endian (Bytes.of_string src) 0 |> Core.Int64.float_of_bits),
           String.sub src
                      ~pos:double_length
                      ~len:(String.length src - double_length))
@@ -150,10 +150,10 @@ let u32_to_buffer src =
   dst
 
 let utf8_to_buffer src =
-  u16_to_buffer (String.length src) ^ src
+  Bytes.to_string (u16_to_buffer (String.length src)) ^ src
 
 let utf8_long_to_buffer src =
-  u32_to_buffer (String.length src) ^ src
+  Bytes.to_string (u32_to_buffer (String.length src)) ^ src
 
 let rec object_property_to_buffer (name, item) =
   utf8_to_buffer name ^ to_buffer item
@@ -161,50 +161,50 @@ let rec object_property_to_buffer (name, item) =
 and to_buffer item =
   match item with
   | Number value ->
-     marker_buffer item ^ double_to_buffer value
+     Bytes.to_string (marker_buffer item) ^ Bytes.to_string (double_to_buffer value)
   | Boolean value ->
-     marker_buffer item ^ boolean_to_buffer value
+     Bytes.to_string (marker_buffer item) ^ boolean_to_buffer value
   | String value ->
-     marker_buffer item ^ utf8_to_buffer value
+     Bytes.to_string (marker_buffer item) ^ utf8_to_buffer value
   | Object value ->
-     marker_buffer item ^
+     Bytes.to_string (marker_buffer item) ^
        List.fold ~init:""
                  ~f:(fun sum entry -> sum ^ object_property_to_buffer entry)
                  value ^
          to_buffer ObjectEnd
   | MovieClip -> raise UnsupportedType
   | Null ->
-     marker_buffer item
+     Bytes.to_string (marker_buffer item)
   | Undefined ->
-     marker_buffer item
+     Bytes.to_string (marker_buffer item)
   | Reference value ->
-     marker_buffer item ^ u16_to_buffer value
+     Bytes.to_string (marker_buffer item) ^ Bytes.to_string (u16_to_buffer value)
   | ECMAArray value ->
-     marker_buffer item ^ u32_to_buffer (List.length value) ^
+     Bytes.to_string (marker_buffer item) ^ Bytes.to_string (u32_to_buffer (List.length value)) ^
        List.fold ~init:""
                  ~f:( ^ )
                  (List.map ~f:object_property_to_buffer value)
   | ObjectEnd ->
-     utf8_to_buffer "" ^ marker_buffer item
+     utf8_to_buffer "" ^ Bytes.to_string (marker_buffer item)
   | StrictArray value ->
      (* amf standard omits the marker. mistake maybe? *)
-     marker_buffer item ^ u32_to_buffer (Array.length value) ^
+     Bytes.to_string (marker_buffer item) ^ Bytes.to_string (u32_to_buffer (Array.length value)) ^
        Array.fold ~init:"" ~f:( ^ ) (Array.map ~f:to_buffer value)
   | Date value ->
-     marker_buffer item ^ (Time.to_unix_float value *. 1000.0
+     Bytes.to_string (marker_buffer item) ^ Bytes.to_string (Time.to_unix_float value *. 1000.0
                            |> double_to_buffer) ^
-       u16_to_buffer 0
+       Bytes.to_string (u16_to_buffer 0)
   | LongString value ->
-     marker_buffer item ^ utf8_long_to_buffer value
+     Bytes.to_string (marker_buffer item) ^ utf8_long_to_buffer value
   | Unsupported -> raise UnsupportedType
   | RecordSet -> raise UnsupportedType
   | XMLDocument value ->
-     marker_buffer item ^ utf8_long_to_buffer value
+     Bytes.to_string (marker_buffer item) ^ utf8_long_to_buffer value
   | TypedObject {
         class_name;
         properties;
       } ->
-     marker_buffer item ^ utf8_to_buffer class_name ^
+     Bytes.to_string (marker_buffer item) ^ utf8_to_buffer class_name ^
        List.fold ~init:""
                  ~f:(fun sum entry -> sum ^ object_property_to_buffer entry)
                  properties ^
@@ -216,7 +216,7 @@ let rec peel_off_object_property_opt src =
   peel_off_utf8 src >>= fun (name, src) ->
   if name = ""
   then (peel_off_byte src >>= fun (byte, src) ->
-        if Char.of_int_exn byte <> Char.of_string (marker_buffer ObjectEnd)
+        if Char.of_int_exn byte <> Char.of_string (Bytes.to_string (marker_buffer ObjectEnd))
         then Error (Error.of_string "Object didn't end with ObjectEnd")
         else Ok (None, src))
   else
@@ -316,7 +316,7 @@ and peel_off_buffer src =
   | tag ->
      Error (Error.of_string (sprintf "Unrecognized marker: 0x%x" tag))
 
-let rec of_buffer src =
+let of_buffer src =
   let open Result in
   peel_off_buffer src >>= fun (item, res) ->
   if res <> ""
