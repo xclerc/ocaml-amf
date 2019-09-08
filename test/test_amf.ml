@@ -1,5 +1,4 @@
 open OUnit2
-open Sexplib
 open Core
 open Format
 
@@ -24,7 +23,7 @@ module TestV0 = struct
   open AMF__Amf_v0
 
   let is_supported_test =
-    "Supported?" >:: fun test_ctxt -> assert_bool "No" true
+    "Supported?" >:: fun _ -> assert_bool "No" true
 
   let in_out_check type_name in_val =
     type_name >::
@@ -39,7 +38,7 @@ module TestV0 = struct
 
   let in_out_failure type_name in_val exn =
     type_name >::
-      fun ctxt ->
+      fun _ ->
       let msg =
         sexp_of_t in_val
         |> Sexp.to_string
@@ -58,7 +57,7 @@ module TestV0 = struct
                                        type_name
                                        tag)
                    tag
-                   ((marker_buffer in_val).[0] |> Char.to_int)
+                   ((Bytes.to_string (marker_buffer in_val)).[0] |> Char.to_int)
 
   let test =
     "V0" >:::
@@ -258,7 +257,7 @@ module TestV0 = struct
              |> result_error_string))] @
 
       ["UpgradeToV3" >::
-         fun ctxt ->
+         fun _ ->
          assert_raises ~msg:"Make sure upgrade exception is raised"
                        UpgradeToAMFV3
                        (fun () -> String.of_byte_list [0x12] |> of_buffer)
@@ -269,7 +268,7 @@ end
 module TestV3 = struct
 
   let is_supported_test =
-    "Supported?" >:: fun test_ctxt -> assert_bool "No" false
+    "Supported?" >:: fun _ -> assert_bool "No" false
 
   let test =
     "V3" >:::
@@ -283,4 +282,3 @@ let test =
     [TestV0.test;
      (* TestV3.test; not supporting v3 yet *)
     ]
-

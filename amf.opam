@@ -8,14 +8,14 @@ homepage: "https://briancaine.github.io/ocaml-amf/"
 bug-reports: "https://github.com/briancaine/ocaml-amf/issues"
 license: "LGPL with OCaml linking exception"
 build: [
-  ["jbuilder" "build" "-p" name "-j" jobs]
+  ["dune" "build" "-p" name "-j" jobs]
 ]
 build-test: [
   [make "test"]
 ]
 remove: ["ocamlfind" "remove" "amf"]
 depends: [
-  "jbuilder"                {build & >= "1.0+beta12"}
+  "dune"                {build & >= "1.0"}
 
   "ppx_deriving" {build}
   "ppx_sexp_conv" {build}
