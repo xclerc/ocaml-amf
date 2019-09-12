@@ -21,6 +21,6 @@ depends: [
   "core" {>= "v0.9.1"}
   "stdint"
   "sexplib"
-  "bisect_ppx" {with-test}
+  "bisect_ppx" {build}
   "ounit" {with-test}
 ]
