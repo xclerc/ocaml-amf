@@ -214,9 +214,9 @@ and to_buffer item =
 let rec peel_off_object_property_opt src =
   let open Result in
   peel_off_utf8 src >>= fun (name, src) ->
-  if name = ""
+  if String.equal name ""
   then (peel_off_byte src >>= fun (byte, src) ->
-        if Char.of_int_exn byte <> Char.of_string (Bytes.to_string (marker_buffer ObjectEnd))
+        if Char.equal (Char.of_int_exn byte) (Char.of_string (Bytes.to_string (marker_buffer ObjectEnd)))
         then Error (Error.of_string "Object didn't end with ObjectEnd")
         else Ok (None, src))
   else
@@ -319,14 +319,14 @@ and peel_off_buffer src =
 let of_buffer src =
   let open Result in
   peel_off_buffer src >>= fun (item, res) ->
-  if res <> ""
+  if not (String.equal res "")
   then Error (Error.of_string "Not end of buffer")
   else Ok item
 
 let list_of_buffer src =
   let open Result in
   let rec iter res src =
-    if src = ""
+    if String.equal src ""
     then Ok (List.rev res)
     else peel_off_buffer src >>= fun (next, src) ->
          iter (next :: res) src in
@@ -346,7 +346,7 @@ let buffer_of_list lst =
 
 let peel_off_list str =
   let rec iter thus_far str =
-    if str = ""
+    if String.equal str ""
     then
       let thus_far = List.rev thus_far in
       Result.Ok thus_far
